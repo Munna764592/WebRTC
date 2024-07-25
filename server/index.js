@@ -4,11 +4,16 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT || 3001;
 const path = require('path');
+const cors = require('cors')
+const dotenv = require("dotenv")
 
 let socketList = {};
+dotenv.config();
 
 // app.use(express.static(path.join(__dirname, 'public'))); // this will work for CRA build
-app.use(express.static(path.join(__dirname, '../vite')));
+// app.use(express.static(path.join(__dirname, '../vite')));
+
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }))
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
